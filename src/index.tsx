@@ -39,7 +39,6 @@ class Board extends React.Component<BoardProps, {}> {
     )
   }
 
-
   public render() {
     return (
       <div>
