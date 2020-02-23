@@ -9,34 +9,24 @@ interface SquareProps {
   onClick:  () => void
 }
 
-
-class Square extends React.Component<SquareProps, {}> {
-  constructor(props: SquareProps) {
-    super(props)
-    this.state = {
-      value: null
-    }
-  }
-
-  public render() {
-    return (
-      <button
-        className="square"
-        onClick={() => {
-          this.props.onClick()
-        }}
-      >
-        {this.props.value}
-      </button>
-    )
-  }
+function Square(props: SquareProps) {
+  return (
+    <button
+      className="square"
+      onClick={() => {
+        props.onClick()
+      }}
+    >
+    {props.value}
+    </button>
+  )
 }
 
 interface BoardState {
   squares: SquareValue[]
 }
 
-class Board extends React.Component<any, BoardState> {
+class Board extends React.Component<{}, BoardState> {
   constructor(props: any) {
     super(props)
     this.state = {
