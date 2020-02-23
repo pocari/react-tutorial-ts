@@ -1,45 +1,67 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+
+type SquareValue = ('X' | 'O' | null)
 
 interface SquareProps {
-  value: number
-}
-
-interface SquareState {
-  value: number | null | 'X'
+  value: SquareValue
+  onClick:  () => void
 }
 
 
-class Square extends React.Component<SquareProps, SquareState> {
+class Square extends React.Component<SquareProps, {}> {
   constructor(props: SquareProps) {
-    super(props);
+    super(props)
     this.state = {
       value: null
     }
   }
 
-  render() {
+  public render() {
     return (
       <button
         className="square"
         onClick={() => {
-          this.setState({value: 'X'})
+          this.props.onClick()
         }}
       >
-        {this.state.value}
+        {this.props.value}
       </button>
-    );
+    )
   }
 }
 
-class Board extends React.Component {
-  renderSquare(i: number) {
-    return <Square value={i}/>;
+interface BoardState {
+  squares: SquareValue[]
+}
+
+class Board extends React.Component<any, BoardState> {
+  constructor(props: any) {
+    super(props)
+    this.state = {
+      squares: Array(9).fill(null),
+    }
   }
 
-  render() {
-    const status = 'Next player: X';
+  handleClick(i: number): void {
+    const squares = this.state.squares.slice()
+    squares[i] = 'X'
+    this.setState({squares: squares})
+  }
+
+  private renderSquare(i: number) {
+    return (
+      <Square
+        value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}
+      />
+    )
+  }
+
+
+  public render() {
+    const status = 'Next player: X'
 
     return (
       <div>
@@ -60,7 +82,7 @@ class Board extends React.Component {
           {this.renderSquare(8)}
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -76,7 +98,7 @@ class Game extends React.Component {
           <ol>{/* TODO */}</ol>
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -85,4 +107,4 @@ class Game extends React.Component {
 ReactDOM.render(
   <Game />,
   document.getElementById('root')
-);
+)
