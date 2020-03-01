@@ -27,39 +27,35 @@ interface BoardProps {
   onClick:  (i: number) => void
 }
 
+const renderSquare = (props: BoardProps, i: number) => {
+  return (
+    <Square
+      value={props.squares[i]}
+      onClick={() => props.onClick(i)}
+    />
+  )
+}
 
-
-class Board extends React.Component<BoardProps, {}> {
-  private renderSquare(i: number) {
-    return (
-      <Square
-        value={this.props.squares[i]}
-        onClick={() => this.props.onClick(i)}
-      />
-    )
-  }
-
-  public render() {
-    return (
-      <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+const Board = (props: BoardProps) => {
+  return (
+    <div>
+      <div className="board-row">
+        {renderSquare(props, 0)}
+        {renderSquare(props, 1)}
+        {renderSquare(props, 2)}
       </div>
-    )
-  }
+      <div className="board-row">
+        {renderSquare(props, 3)}
+        {renderSquare(props, 4)}
+        {renderSquare(props, 5)}
+      </div>
+      <div className="board-row">
+        {renderSquare(props, 6)}
+        {renderSquare(props, 7)}
+        {renderSquare(props, 8)}
+      </div>
+    </div>
+  )
 }
 
 interface BoardSquare {
@@ -133,10 +129,7 @@ class Game extends React.Component<{}, GameState> {
     const current = history[this.state.stepNumber]
     const winner =  this.calculateWinner(current.squares)
 
-    const moves = history.map((step, move) => {
-      // console.log("=---------------------------------")
-      // console.log(step)
-      // console.log(move)
+    const moves = history.map((_, move) => {
       const desc = move ?
         'Go to move #' + move :
         'Go to game start';
